@@ -243,9 +243,7 @@ void touchMessage( const arvp_main::Touch& TouchTopic){
 //    myGLCD.print(currentTouch.title, currentTouch.title_x , currentTouch.title_y);
 //    myGLCD.printNumF(currentTouch.value, currentTouch.decimal_places, currentTouch.data_x, currentTouch.data_y);
      
-   }
-  
-  
+   }  
 }
 
 
