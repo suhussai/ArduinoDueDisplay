@@ -253,21 +253,7 @@ void touchMessage( const arvp_main::Touch& TouchTopic){
 
 
 
-
-
-
-void batteryMessage( const std_msgs::String& Battery) {
-//  nh.loginfo(Depth.data);
-  char * message;
-  sprintf(message, "Touch: %s", Battery.data);
-  myGLCD.print(message, RIGHT, 1);
-//  delay(900);
-  
-  
-}
-
-
-void displayErrorLines(String line) {
+void displayErrorLines(String line1, String line2, String line3) {
       
       myGLCD.clrScr();
       myGLCD.setFont(SmallFont);
@@ -278,27 +264,16 @@ void displayErrorLines(String line) {
       myGLCD.setColor(255, 255, 255);
       myGLCD.setBackColor(255, 0, 0);
       
-//      int starting = 93;
-//      while(line.length() > 24) {
-//        myGLCD.print(line.substr(0,24).c_str(), CENTER, starting);
-//        line = line.substr(24);       
-//        starting = starting + 26;        
-//      }
-      
-      myGLCD.print(line.c_str(), CENTER, 93);
-
-/*      myGLCD.print(line2, CENTER, 119);
-      myGLCD.print(line3, CENTER, 132);
-    */  
+      myGLCD.print(line1, CENTER, 93);
+      myGLCD.print(line2, CENTER, 119);
+      myGLCD.print(line3, CENTER, 145);
 }
 
 
 void errorMessage( const std_msgs::String& ErrorTopic) {
 //  nh.loginfo(Depth.data);
-  displayErrorLines(ErrorTopic.data);
+  displayErrorLines("Error Reported!!!", ErrorTopic.data, "");
   delay(1000);
-  
-  
 }
 
 
@@ -309,10 +284,6 @@ ros::Subscriber<std_msgs::Float32> tempSub("sensors/temp", &tempMessage );
 
 ros::Subscriber<std_msgs::String> errorSub("display/errors", &errorMessage );
 ros::Subscriber<arvp_main::Depth> depthSub("sensors/depth", &depthMessage );
-
-
-ros::Subscriber<std_msgs::String> PIDSub("PID", &PIDMessage );
-ros::Subscriber<std_msgs::String> batterySub("Battery", &batteryMessage );
 
 
 void setup()
@@ -334,12 +305,6 @@ void setup()
   nh.subscribe(touchSub);
   nh.subscribe(tempSub);
   nh.subscribe(errorSub);
-  //  nh.subscribe(headingSub);
- // nh.subscribe(RollSub);
-  //nh.subscribe(pitchSub);
-//  nh.subscribe(PIDSub);
-//  nh.subscribe(touchSub);
-//  nh.subscribe(batterySub);
 }
 
 void loop()
@@ -367,7 +332,7 @@ void loop()
   else if (mainDataPage && !nh.connected()) {
 
     
-      displayErrorLines("We Aren't Connected \n Checking connection in a few seconds...");
+      displayErrorLines("We Aren't Connected", "Checking connection", "in a few seconds...");
       
       
       delay(300); 
